@@ -79,7 +79,7 @@
         </figcaption>
       </figure>
       <h3>Matrikler af Ejby By, Glostrup (${bilag.matrikler.length})</h3>
-      <span class="vent">⏳ Tjekkes · 233 parceller er udstykket efter 1968 og foreslået medtaget</span>
+      <span class="vent">⏳ Tjekkes · 232 parceller er udstykket efter 1968 og foreslået medtaget</span>
       <div class="matrikler">${bilag.matrikler.map((m) => `<span>${esc(m.replace(/^(\d+)/, "$1 "))}</span>`).join("")}</div>
     </section>`;
   }

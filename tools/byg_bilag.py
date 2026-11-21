@@ -8,6 +8,7 @@ from pathlib import Path
 VEJE = ["Brandsbjergvej", "Ejbydalsvej", "Ejby Mosevej", "Mosetoften"]
 VEJTYPER = {"tertiary", "residential", "unclassified"}
 HOVEDSTRAEK_UDENFOR = {"Ejby Mosevej", "Mosetoften"}
+GROENT_OMRAADE = {"8fø"}
 MARGEN_I_M = 110
 BREDDE = 1000
 PAD = 16
@@ -17,7 +18,7 @@ osm = ET.parse(sys.argv[2]).getroot()
 ud = Path(sys.argv[3])
 
 fund = re.search(r"var PARCELLER\s*=\s*(\[.*?\]);\s*var OMRAADE\s*=\s*(\[.*?\]);", parcel_kilde, re.S)
-parceller = json.loads(fund.group(1))
+parceller = [[p[0], "G", *p[2:]] if p[0] in GROENT_OMRAADE else p for p in json.loads(fund.group(1))]
 omraade = json.loads(fund.group(2))
 
 lat0 = 55.7005
