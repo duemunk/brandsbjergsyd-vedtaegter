@@ -57,6 +57,12 @@ h3 { font-size: 1.05rem; font-weight: 600; margin: 20px 0 6px; }
 del { color: var(--del-ink); background: var(--del-bg); text-decoration: line-through; text-decoration-thickness: 1.5px; border-radius: 2px; }
 ins { color: var(--ins-ink); background: var(--ins-bg); text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 3px; border-radius: 2px; }
 .udgaar h2 { color: var(--del-ink); }
+.historik { color: var(--muted); margin: 0 0 8px; }
+.historik p { margin: 0; }
+.afsnit-intro { font-weight: 600; margin: 0 0 6px; }
+.pligter { margin: 0; padding-left: 1.3em; }
+.pligter li { margin-bottom: 8px; }
+.gammel-liste { list-style: none; margin: 6px 0 0; padding: 0; }
 .note { margin-top: 24px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 8px; color: var(--muted); }
 .afslutning { margin-top: 32px; padding-top: 14px; border-top: 1px solid var(--line); color: var(--muted); }
 .afslutning p { margin: 0 0 4px; }

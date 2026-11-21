@@ -80,23 +80,51 @@
       </figure>
       <h3>Matrikler af Ejby By, Glostrup (${bilag.matrikler.length})</h3>
       <span class="vent">⏳ Tjekkes · 232 parceller er udstykket efter 1968 og foreslået medtaget</span>
-      <div class="matrikler">${bilag.matrikler.map((m) => `<span>${esc(m.replace(/^(\d+)/, "$1 "))}</span>`).join("")}</div>
+      <div class="matrikler">${bilag.matrikler.map((m) => `<span>${esc(m)}</span>`).join("")}</div>
     </section>`;
   }
 
+  function nuvaerendeHtml(dok) {
+    const gammel = window.NUVAERENDE[dok.id];
+    const afsnit = gammel.afsnit.map((a) => {
+      const overskrift = a.nr
+        ? `<h2><span class="nr">${esc(a.nr)}</span>${esc(a.titel)}</h2>`
+        : `<p class="afsnit-intro">${esc(a.titel)}</p>`;
+      const punkter = a.punkter.map((p) => {
+        const liste = p.liste ? `<ul class="gammel-liste">${p.liste.map((l) => `<li>${esc(l)}</li>`).join("")}</ul>` : "";
+        return a.nr
+          ? `<div class="stk"><b>${esc(p.nr)}</b><div><p>${visTokens(tokens(p.tekst))}</p>${liste}</div></div>`
+          : `<li>${esc(p.tekst)}</li>`;
+      }).join("");
+      return `<section class="paragraf">${overskrift}${a.nr ? punkter : `<ul class="pligter">${punkter}</ul>`}</section>`;
+    }).join("");
+    return `<h1 class="dok-titel">Nuværende ${esc(gammel.titel.toLowerCase())}</h1>
+      <div class="historik">${gammel.historik.map((l) => `<p>${esc(l)}</p>`).join("")}</div>
+      ${afsnit}
+      <p class="note"><a href="nuvaerende-vedtaegter.pdf">Se den originale PDF</a></p>`;
+  }
+
   function vis() {
-    const [id, tilstand] = (location.hash.slice(1) || "vedtaegter").split("-");
+    const [id, del] = (location.hash.slice(1) || "vedtaegter").split("-");
     const dok = dokumenter.find((d) => d.id === id) || dokumenter[0];
+    const tilstand = ["aendringer", "nuvaerende"].includes(del) ? del : "forslag";
     const visAendringer = tilstand === "aendringer";
+    const endelse = (t) => (t === "forslag" ? "" : "-" + t);
     document.body.classList.toggle("aendringer", visAendringer);
 
     document.querySelectorAll("[data-dok]").forEach((el) => el.setAttribute("aria-current", el.dataset.dok === dok.id ? "page" : "false"));
     document.querySelectorAll("[data-tilstand]").forEach((el) => {
-      const aktiv = (el.dataset.tilstand === "aendringer") === visAendringer;
-      el.setAttribute("aria-pressed", String(aktiv));
-      el.href = "#" + dok.id + (el.dataset.tilstand === "aendringer" ? "-aendringer" : "");
+      el.setAttribute("aria-pressed", String(el.dataset.tilstand === tilstand));
+      el.href = "#" + dok.id + endelse(el.dataset.tilstand);
     });
-    document.querySelectorAll("[data-dok]").forEach((el) => { el.href = "#" + el.dataset.dok + (visAendringer ? "-aendringer" : ""); });
+    document.querySelectorAll("[data-dok]").forEach((el) => { el.href = "#" + el.dataset.dok + endelse(tilstand); });
+
+    if (tilstand === "nuvaerende") {
+      opsummering.innerHTML = "";
+      indhold.innerHTML = nuvaerendeHtml(dok);
+      document.title = `Nuværende ${dok.titel.toLowerCase()} – Brandsbjerg Syd`;
+      return;
+    }
 
     const alle = dok.paragraffer.flatMap((p) => p.stk);
     const antal = { aendret: 0, ny: 0, uaendret: 0 };
