@@ -89,10 +89,13 @@ window.DOKUMENTER = [
       { ref: "§ 3.4", status: "Udgår", nu: "Enhver grundejer har pligt til at holde sin grund iorden, herunder at holde den fri for frøbærende ukrudt." },
       { ref: "§ 4.4", status: "Udgår", nu: "Vederlaget skal opgives til skattevæsenet efter gældende lov." }
     ],
-    afslutning: [
-      "Vedtaget på generalforsamlingen den [dato]. Godkendt af Glostrup Kommune den [dato].",
-      "Erstatter vedtægterne vedtaget den 13. marts 1968, senest ændret den 20. marts 1995."
+    historik: [
+      ["13. marts 1968", "Vedtaget på den stiftende generalforsamling"],
+      ["26. oktober 1983", "Ændret på ekstraordinær generalforsamling"],
+      ["20. marts 1995", "Ændret på ekstraordinær generalforsamling"],
+      ["[dato]", "Ændret på generalforsamlingen og godkendt af Glostrup Kommune den [dato]"]
     ],
+    afslutning: [],
     bilag: true
   },
   {

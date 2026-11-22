@@ -144,9 +144,12 @@
       ? `<section class="udgaar"><h2>Udgår eller flyttes</h2>${dok.udgaar.map((u) => `
           <div class="stk"><b>${esc(u.ref)}</b><div><p><del>${esc(u.nu)}</del></p><div class="maerker"><span class="chip chip-udgaar">− ${esc(u.status)}</span></div></div></div>`).join("")}</section>`
       : "";
-    const afslutning = `<div class="afslutning">${dok.afslutning.map((l) => `<p>${esc(l)}</p>`).join("")}</div>`;
+    const afslutning = dok.afslutning.length ? `<div class="afslutning">${dok.afslutning.map((l) => `<p>${esc(l)}</p>`).join("")}</div>` : "";
+    const historik = dok.historik
+      ? `<dl class="historik-log">${dok.historik.map(([dato, tekst]) => `<dt>${esc(dato)}</dt><dd>${esc(tekst)}</dd>`).join("")}</dl>`
+      : "";
 
-    indhold.innerHTML = `<h1 class="dok-titel">${esc(dok.titel)}</h1>${paragraffer}${note}${udgaar}${afslutning}${dok.bilag ? bilagHtml() : ""}`;
+    indhold.innerHTML = `<h1 class="dok-titel">${esc(dok.titel)}</h1>${historik}${paragraffer}${note}${udgaar}${afslutning}${dok.bilag ? bilagHtml() : ""}`;
     document.title = `${dok.titel}${visAendringer ? " · ændringer" : ""} – Brandsbjerg Syd`;
   }
 
